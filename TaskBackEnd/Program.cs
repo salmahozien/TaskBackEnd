@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using QuestPDF.Infrastructure;
 using TaskBackEnd.Interfaces;
 using TaskBackEnd.Models;
 using TaskBackEnd.Services;
@@ -36,7 +37,7 @@ builder.Services.AddCors(
             });
     });
 
-
+QuestPDF.Settings.License = LicenseType.Community;
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

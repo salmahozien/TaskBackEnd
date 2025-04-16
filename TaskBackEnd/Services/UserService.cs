@@ -31,7 +31,9 @@ namespace TaskBackEnd.Services
             {
                 var transaction = _context.Database.BeginTransaction();
                 var user = model.Adapt<User>();
+                user.Images = null;
                 await Add(user);
+                
                 var count = await CommitChanges();
                 if (count > 0)
                 {
@@ -82,18 +84,21 @@ namespace TaskBackEnd.Services
                         .Column(column =>
                         {
                             column.Item().Text($"First Name: {user.FirstName}");
+                            column.Item().Text("");
                             column.Item().Text($"Last Name: {user.LastName}");
+                            column.Item().Text("");
                             column.Item().Text($"Email: {user.Email}");
+                            column.Item().Text("");
                             column.Item().Text($"Phone Number: {user.PhoneNumber}");
 
                             column.Item().PaddingTop(10).Text("Uploaded Images:").Bold();
-
+                            column.Item().Text("");
                             foreach (var imagePath in imagePaths)
                             {
                                 column.Item().Element(container =>
                                 container
                                .PaddingBottom(10)
-                               .Height(200)
+                               
                               .Image(imagePath, ImageScaling.FitWidth)
                             );
                             }
