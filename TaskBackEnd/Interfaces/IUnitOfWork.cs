@@ -4,5 +4,6 @@
     {
         IUserService Users { get; }
         IImageService Images {  get; }
+        ISignatureService Signatures { get; }
     }
 }

@@ -47,8 +47,17 @@ namespace TaskBackEnd.Services
                             return output;
                         }
                     }
-                    await transaction.CommitAsync();
-                    output.Success = "User Added SuccessFully";
+                    var signature = await _unitOfWork.Signatures.SaveSignature(model.Signature, user.Id);
+                    if (signature.Fail != string.Empty)
+                    {
+                        output.Fail = signature.Fail;
+                    }
+                    else
+                    {
+                        await transaction.CommitAsync();
+                        output.Success = "User Added SuccessFully";
+                    }
+
                 }
 
 
@@ -72,6 +81,7 @@ namespace TaskBackEnd.Services
         {
             var user = await FindById(userId);
             var imagePaths = GetUserImagePaths(userId);
+            var signature = await _unitOfWork.Signatures.Find(x => x.UserId == userId);
             return Document.Create(container =>
             {
                 container.Page(page =>
@@ -81,6 +91,8 @@ namespace TaskBackEnd.Services
                     page.DefaultTextStyle(x => x.FontSize(14));
 
                     page.Content()
+                    .Border(1) 
+                    .Padding(10)
                         .Column(column =>
                         {
                             column.Item().Text($"First Name: {user.FirstName}");
@@ -101,8 +113,17 @@ namespace TaskBackEnd.Services
                                
                               .Image(imagePath, ImageScaling.FitWidth)
                             );
+                                column.Item().Text($"Signature:");
+                                column.Item().Text("");
+                                column.Item().Element(container =>
+                               container
+                              .PaddingBottom(10)
+
+                             .Image(signature.SignaturePath, ImageScaling.FitWidth));
+
                             }
-                        });
+                        })
+                        ;
                 });
             }).GeneratePdf();
         }

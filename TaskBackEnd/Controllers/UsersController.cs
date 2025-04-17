@@ -24,7 +24,7 @@ namespace TaskBackEnd.Controllers
             {
                 return BadRequest(result.Fail);
             }
-            return Ok(result.Success);
+            return Ok();
 
         }
         [HttpGet("GetAllUsers")]

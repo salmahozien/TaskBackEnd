@@ -43,6 +43,28 @@ namespace TaskBackEnd.Migrations
                     b.ToTable("Images");
                 });
 
+            modelBuilder.Entity("TaskBackEnd.Models.Signature", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("SignaturePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Signatures");
+                });
+
             modelBuilder.Entity("TaskBackEnd.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -76,6 +98,17 @@ namespace TaskBackEnd.Migrations
                 {
                     b.HasOne("TaskBackEnd.Models.User", "User")
                         .WithMany("Images")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TaskBackEnd.Models.Signature", b =>
+                {
+                    b.HasOne("TaskBackEnd.Models.User", "User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

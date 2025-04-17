@@ -10,5 +10,6 @@ namespace TaskBackEnd.Models
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<Signature> Signatures { get; set; }
     }
 }
