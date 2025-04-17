@@ -17,7 +17,7 @@ namespace TaskBackEnd.Controllers
             _unitOfWork = unitOfWork;
         }
         [HttpPost("AddUsers")]
-        public async Task<IActionResult> AddUser(AddUserDto model)
+        public async Task<IActionResult> AddUser([FromForm]AddUserDto model)
         {
             var result = await _unitOfWork.Users.AddUser(model);
             if (result.Fail != string.Empty)
@@ -34,7 +34,7 @@ namespace TaskBackEnd.Controllers
             return Ok(result);
         }
         [HttpGet("GenerateUserPdf")]
-        public async Task<IActionResult> GenerateUserPdf(int userId)
+        public async Task<IActionResult> GenerateUserPdf([FromQuery]int userId)
         {
             var pdfBytes = await _unitOfWork.Users.GeneratePdf(userId);
 
